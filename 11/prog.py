@@ -4,6 +4,8 @@
 Найдите сумму всех простых чисел меньше двух миллионов.
 '''
 
+from functools import reduce
+
 ar = [
     [8, 2, 22, 97, 38, 15, 0, 40, 0, 75, 4, 5, 7, 78, 52, 12, 50, 77, 91, 8],
     [49, 49, 99, 40, 17, 81, 18, 57, 60, 87, 17, 40, 98, 43, 69, 48, 4, 56, 62, 0],
@@ -26,3 +28,23 @@ ar = [
     [20, 73, 35, 29, 78, 31, 90, 1, 74, 31, 49, 71, 48, 86, 81, 16, 23, 57, 5, 54],
     [1, 70, 54, 71, 83, 51, 54, 69, 16, 92, 33, 48, 61, 43, 52, 1, 89, 19, 67, 48]
 ]
+
+mult = []
+
+for line in ar:
+    for i in range(0, len(line) - 3):
+        mult.append(reduce(lambda x, y: x * y, line[i:i + 4]))
+
+for i in range(0, len(ar)):
+    row = [row[i] for row in ar]
+    for j in range(0, len(row) - 3):
+        mult.append(reduce(lambda x, y: x * y, row[i:i + 4]))
+
+for i in range(0, len(ar) - 3):
+    for j in range(0, len(ar[i]) - 3):
+        m1 = [ar[i][j + 3], ar[i + 1][j + 2], ar[i + 2][j + 1], ar[i + 3][j]]
+        m2 = [ar[i][j + 3], ar[i + 1][j + 2], ar[i + 2][j + 1], ar[i + 3][j]]
+        mult.append(reduce(lambda x, y: x * y, m1))
+        mult.append(reduce(lambda x, y: x * y, m2))
+
+print(max(mult))
